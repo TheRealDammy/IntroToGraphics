@@ -19,6 +19,8 @@ void HelloGL::Display()
 	HelloGL::DrawPolygon2();
 	HelloGL::DrawPolygon3();
 	HelloGL::DrawPolygon4();
+	HelloGL::Draw3DShape();
+	HelloGL::Draw3DShape2();
 	glFlush();
 }
 
@@ -96,6 +98,26 @@ void HelloGL::DrawPolygon4()
 	glPopMatrix();
 }
 
+void HelloGL::Draw3DShape()
+{
+	glPushMatrix();
+	glTranslatef(-0.5, -0.5, 0);
+	glRotatef(rotation, 0.0f, 1.0f, 1.0f);
+	glColor4f(2.0f, 1.0f, 0.0f, 0.0f);
+	glutSolidTeapot(0.2);
+	glPopMatrix();
+}
+
+void HelloGL::Draw3DShape2() 
+{
+	glPushMatrix();
+	glTranslatef(0.6, 0.5, 0);
+	glRotatef(rotation, 1.0f, 1.0f, 0.0f);
+	glColor4f(0.0f, 1.0f, 5.0f, 0.0f);
+	glutSolidTorus(0.1, 0.2, 20, 20);
+	glPopMatrix();
+}
+
 void HelloGL::Update()
 {
 	glutPostRedisplay();
@@ -107,6 +129,7 @@ void HelloGL::Update()
 		rotation = 0.0f;
 	}
 }
+
 
 HelloGL::~HelloGL(void)
 {

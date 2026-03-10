@@ -24,6 +24,10 @@ public:
 
 	void DrawPolygon4();
 
+	void Draw3DShape();
+
+	void Draw3DShape2();
+
 	void Update();
 
 private:
