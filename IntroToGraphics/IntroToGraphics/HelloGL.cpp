@@ -5,31 +5,34 @@ HelloGL::HelloGL(int argc, char* argv[])
 	rotation = 0.0f;
 	GLUTCallbacks::Init(this);
 	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE);
 	glutInitWindowSize(800, 800);
 	glutCreateWindow("Hello OpenGL");
+	glutKeyboardFunc(GLUTCallbacks::Keyboard);
 	glutDisplayFunc(GLUTCallbacks::Display);
 	glutTimerFunc(0, GLUTCallbacks::Timer, REFRESHRATE);
-	glutMainLoop();
+	glutMainLoop();	
 }
 
-void HelloGL::Display() 
+void HelloGL::Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	HelloGL::DrawPolygon();	
+	HelloGL::DrawPolygon();
 	HelloGL::DrawPolygon2();
 	HelloGL::DrawPolygon3();
 	HelloGL::DrawPolygon4();
 	HelloGL::Draw3DShape();
 	HelloGL::Draw3DShape2();
 	glFlush();
+	glutSwapBuffers();
 }
 
-void HelloGL::DrawPolygon() 
-{	
+void HelloGL::DrawPolygon()
+{
 	glPushMatrix();
 	glTranslatef(-0.5, 0, 0);
 	glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-	glBegin(GL_POLYGON); 
+	glBegin(GL_POLYGON);
 	{
 		glColor4f(1.0f, 0.0f, 0.0f, 0.0f);
 		glVertex2f(-0.2f, -0.2f);
@@ -45,7 +48,7 @@ void HelloGL::DrawPolygon()
 }
 
 void HelloGL::DrawPolygon2()
-{	
+{
 	glPushMatrix();
 	glTranslatef(0, 0, 0);
 	glRotatef(rotation, 0.0f, 0.0f, -1.0f);
@@ -108,7 +111,7 @@ void HelloGL::Draw3DShape()
 	glPopMatrix();
 }
 
-void HelloGL::Draw3DShape2() 
+void HelloGL::Draw3DShape2()
 {
 	glPushMatrix();
 	glTranslatef(0.6, 0.5, 0);
@@ -122,11 +125,23 @@ void HelloGL::Update()
 {
 	glutPostRedisplay();
 
-	rotation += 0.5f;
+	//rotation += 0.5f;
 
 	if (rotation > 360.0f)
 	{
 		rotation = 0.0f;
+	}
+}
+
+void HelloGL::Keyboard(unsigned char key, int x, int y) 
+{
+	if (key == 'd') 
+	{
+		rotation += 0.5f;
+	}
+	else if (key == 'a')
+	{
+		rotation -= 0.5f;
 	}
 }
 

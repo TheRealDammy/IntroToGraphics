@@ -3,7 +3,7 @@
 
 namespace GLUTCallbacks
 {
-	namespace 
+	namespace
 	{
 		HelloGL* helloGL = nullptr;
 	}
@@ -20,12 +20,19 @@ namespace GLUTCallbacks
 	}
 	void Timer(int preferredRefresh)
 	{
-		glutPostRedisplay();
-		glutTimerFunc(preferredRefresh, Timer, preferredRefresh);
+		int updateTime = glutGet(GLUT_ELAPSED_TIME);		
 
 		if (helloGL != nullptr)
-			{
-				helloGL->Update();
+		{
+			helloGL->Update();
+			updateTime = glutGet(GLUT_ELAPSED_TIME) - updateTime;
 		}
+
+		glutTimerFunc(preferredRefresh - updateTime, Timer, preferredRefresh);
+	}
+
+	void Keyboard(unsigned char key, int x, int y) 
+	{
+		helloGL->Keyboard(key, x, y);
 	}
 }
