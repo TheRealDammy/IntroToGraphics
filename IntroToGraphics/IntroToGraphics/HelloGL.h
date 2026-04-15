@@ -12,25 +12,11 @@ class HelloGL
 public:
 	HelloGL(int argc, char* argv[]);
 
-	~HelloGL(void);
+	~HelloGL(void) = default;
 
 	void Display();
 
-	void DrawPolygon();
-
-	void DrawPolygon2();
-
-	void DrawPolygon3();
-
-	void DrawPolygon4();
-
-	void Draw3DShape();
-
-	void Draw3DShape2();
-
 	void Update();
-
-	void Keyboard(unsigned char key, int x, int y);
 
 private:
 	float rotation;
