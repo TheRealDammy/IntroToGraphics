@@ -123,8 +123,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Planet.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClInclude Include="GLUTCallbacks.h" />
     <ClInclude Include="HelloGL.h" />
+    <ClCompile Include="ObjLoader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="ObjLoader.h" />
+    <ClInclude Include="Planet.h" />
+    <ClInclude Include="SceneNode.h" />
+    <ClInclude Include="Structures.h" />
+    <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GLUTCallbacks.cpp" />
