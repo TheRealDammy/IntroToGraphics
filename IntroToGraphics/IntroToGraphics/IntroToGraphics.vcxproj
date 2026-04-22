@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Planet.cpp" />
+    <ClInclude Include="SceneGraph.h" />
     <ClCompile Include="TextureManager.cpp" />
     <ClInclude Include="GLUTCallbacks.h" />
     <ClInclude Include="HelloGL.h" />

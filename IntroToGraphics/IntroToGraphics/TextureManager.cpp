@@ -27,6 +27,7 @@ Texture TextureManager::LoadTexture(const char* filename)
 	unsigned char* data = new unsigned char[dataSize];
 	file.seekg(dataOffset);
 	file.read(reinterpret_cast<char*>(data), dataSize);
+	std::cout << "Texture loaded: " << filename << std::endl;
 	std::cout << "Bytes read: " << file.gcount() << std::endl;
 	std::cout << "Expected bytes: " << dataSize << std::endl;
 	std::cout << "Width: " << width << ", Height: " << height << std::endl;
