@@ -23,7 +23,7 @@ HelloGL::HelloGL(int argc, char* argv[])
 	glutInit(&argc, argv);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(800, 800);
+	glutInitWindowSize(1920, 1080);
 	glutCreateWindow("Solar System Simulation - GDEV40026");
 
 	// Register callbacks for display, timing and input
