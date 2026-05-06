@@ -4,10 +4,15 @@
 #include <gl/GLU.h>
 #include "GL/freeglut.h"
 
+// Fundamental data structures used across the project
+
 struct Vertex
 {
+    // Position
     float x, y, z;
+    // Normal
     float nx, ny, nz;
+    // Texture coordinates
     float u, v;
 };
 
@@ -18,7 +23,7 @@ struct Color
 
 struct Texture
 {
-    unsigned int id; // OpenGL texture ID
+    unsigned int id; // OpenGL texture ID (0 indicates invalid)
     int width;
     int height;
 };

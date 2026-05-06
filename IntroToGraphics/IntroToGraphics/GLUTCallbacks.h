@@ -1,6 +1,8 @@
 #pragma once
 class HelloGL;
 
+// Wrapper namespace that stores a pointer to the HelloGL instance and forwards GLUT callbacks.
+// This isolates GLUT's C-style callback API from the HelloGL class.
 namespace GLUTCallbacks
 {
 	void Init(HelloGL* gl);
