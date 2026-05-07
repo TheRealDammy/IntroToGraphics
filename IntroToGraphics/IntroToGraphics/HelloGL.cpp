@@ -12,8 +12,7 @@
 HelloGL::HelloGL(int argc, char* argv[])
 {
 	// Initial camera placement and orientation
-	camX = 0.0f; camY = 150.0f; camZ = 280.0f;
-	camYaw = 0.0f; camPitch = -0.5f;
+	camera = new Camera(0.0f, 150.0f, 280.0f);
 	mouseDown = false;
 	selectedPlanet = -1;
 	trackingMode = false;
@@ -288,9 +287,7 @@ void HelloGL::Display()
 		Planet* target = planets[selectedPlanet];
 
 		// Position camera behind and slightly above the target for a third-person view
-		camX = target->worldX - 20.0f;
-		camY = target->worldY + 15.0f;
-		camZ = target->worldZ + 20.0f;
+		camera->SetPosition(target->worldX - 15.0f, target->worldY + 15.0f, target->worldZ + 20.0f);
 
 		// Look directly at the planet's world position
 		lookX = target->worldX;
@@ -299,14 +296,13 @@ void HelloGL::Display()
 	}
 	else
 	{
-		// Compute a forward vector from yaw/pitch for free-look mode
-		lookX = camX + cos(camPitch) * sin(camYaw);
-		lookY = camY + sin(camPitch);
-		lookZ = camZ - cos(camPitch) * cos(camYaw);
+		// Default lookAt target is the origin (where the sun is)
+		lookX = 0.0f;
+		lookY = 150.0f;
+		lookZ = 280.0f;
 	}
 
-	// Set view transform
-	gluLookAt(camX, camY, camZ, lookX, lookY, lookZ, 0.0, 1.0, 0.0);
+	camera->ApplyView();
 
 	// Background stars and the scene graph drawing
 	DrawStarfield();
@@ -359,7 +355,7 @@ void HelloGL::DrawHUD()
 	glColor3f(1.0f, 1.0f, 1.0f);
 
 	char camPos[100];
-	sprintf_s(camPos, "Camera: (%.1f, %.1f, %.1f)", camX, camY, camZ);
+	sprintf_s(camPos, "Camera: (%.1f, %.1f, %.1f)", camera->GetX(), camera->GetY(), camera->GetZ());
 	DrawText(10.0f, glutGet(GLUT_WINDOW_HEIGHT) - 110.0f, camPos);
 
 	char fpsText[50];
@@ -431,21 +427,20 @@ void HelloGL::DrawStarfield()
 	}
 	glEnd();
 	glEnable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
 }
 
 // Keyboard input handler — simple WASD flight-style camera + other controls
 void HelloGL::Keyboard(unsigned char key, int x, int y)
 {
 	float speed = 2.0f;
-	float forwardX = cos(camPitch) * sin(camYaw);
-	float forwardZ = -cos(camPitch) * cos(camYaw);
 
-	if (key == 'w') { camX += forwardX * speed; camZ += forwardZ * speed; }
-	if (key == 's') { camX -= forwardX * speed; camZ -= forwardZ * speed; }
-	if (key == 'a') { camX -= cos(camYaw) * speed; camZ -= sin(camYaw) * speed; }
-	if (key == 'd') { camX += cos(camYaw) * speed; camZ += sin(camYaw) * speed; }
-	if (key == 'q') { camY += speed; }
-	if (key == 'e') { camY -= speed; }
+	if (key == 'w') camera->MoveForward(speed);
+	if (key == 's') camera->MoveBackward(speed);
+	if (key == 'a') camera->StrafeLeft(speed);
+	if (key == 'd') camera->StrafeRight(speed);
+	if (key == 'q') camera->MoveUp(speed);
+	if (key == 'e') camera->MoveDown(speed);
 	if (key == 't') { trackingMode = !trackingMode; } // toggle tracking
 	if (key == 27) { exit(0); } // ESC exit
 
@@ -460,8 +455,7 @@ void HelloGL::Keyboard(unsigned char key, int x, int y)
 		// Reset camera and stop tracking
 		selectedPlanet = -1;
 		trackingMode = false;
-		camX = 0.0f; camY = 150.0f; camZ = 280.0f;
-		camYaw = 0.0f; camPitch = -0.5f;
+		camera->SetPosition(0.0f, 150.0f, 280.0f);
 	}
 
 	// Simulation speed control
@@ -487,8 +481,7 @@ void HelloGL::MouseMotion(int x, int y)
 	if (mouseDown)
 	{
 		float sensitivity = 0.005f;
-		camYaw += (x - lastMouseX) * sensitivity;
-		camPitch -= (y - lastMouseY) * sensitivity;
+		camera->Rotate((x - lastMouseX) * sensitivity, -(y - lastMouseY) * sensitivity);
 		lastMouseX = x;
 		lastMouseY = y;
 	}

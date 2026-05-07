@@ -123,7 +123,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Planet.cpp" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="SceneGraph.h" />
     <ClCompile Include="TextureManager.cpp" />
     <ClInclude Include="GLUTCallbacks.h" />

@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <iostream>
 
 // Basic OBJ loader that supports vertex positions (v), texture coords (vt),
 // normals (vn) and triangle faces (f). It counts triangles in a first pass,
@@ -30,6 +31,8 @@ Mesh* ObjLoader::Load(const char* filename)
     std::vector<Vector2> texCoordinates;
     std::vector<Vector3> normals;
 	int vertexIndex = 0;
+
+	std::cout << "OBJ Loader: " << mesh->numVertices << " vertices allocated for " << filename << std::endl;
 
     // Pass 2 - read the data
 	inFile.open(filename);
@@ -103,6 +106,7 @@ Mesh* ObjLoader::Load(const char* filename)
                 }
 
                 vertexIndex++;
+                
             }
         }
     }

@@ -3,7 +3,6 @@
 #include <iostream>
 
 // Load a BMP texture with very small header parsing and create an OpenGL texture.
-// This loader assumes 24-bit BGR BMPs with a 54-byte header (no compression).
 Texture TextureManager::LoadTexture(const char* filename)
 {
 	Texture texture;
@@ -15,16 +14,16 @@ Texture TextureManager::LoadTexture(const char* filename)
 		std::cerr << "Failed to open texture: " << filename << std::endl;
 		return texture;
 	}
-	// Read the full header (54 bytes for standard BMP)
+	// Read the full header
 	unsigned char header[54];
 	file.read(reinterpret_cast<char*>(header), 54);
 
-	// Extract width, height and data offset from header (no endian handling as BMP is little-endian)
+	// Extract width, height and data offset from header
 	int width = *(int*)&header[18];
 	int height = *(int*)&header[22];
 	int dataOffset = *(int*)&header[10];
 
-	// Read the pixel data (24-bit RGB assumed)
+	// Read the pixel data
 	int dataSize = width * height * 3;
 	unsigned char* data = new unsigned char[dataSize];
 	file.seekg(dataOffset);
@@ -38,8 +37,6 @@ Texture TextureManager::LoadTexture(const char* filename)
 	glGenTextures(1, &texture.id);
 	glBindTexture(GL_TEXTURE_2D, texture.id);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	// BMPs are stored as BGR; GL_BGR_EXT is used here (assuming extension available).
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, data);
 
 	delete[] data;

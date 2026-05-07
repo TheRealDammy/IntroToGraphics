@@ -8,6 +8,7 @@
 #include "Planet.h"
 #include "SceneNode.h"
 #include "SceneGraph.h"
+#include "Camera.h"
 
 #define REFRESHRATE 16 // target milliseconds between frames (~60 FPS)
 
@@ -69,8 +70,7 @@ public:
 	Planet* sun;
 
 	// Camera state (position + orientation)
-	float camX, camY, camZ;
-	float camYaw, camPitch;
+	Camera* camera;
 	int lastMouseX, lastMouseY;
 	bool mouseDown;
 
